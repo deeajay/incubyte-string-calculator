@@ -65,3 +65,31 @@ def test_when_single_negative_number_present(calc):
 
 def test_when_zero_with_negative_number_present(calc):
     assert calc.add("1,2,3,-0") == 6
+
+def test_multiple_amount_of_numbers(calc):
+    assert calc.add("1,2,3,4,5") == 15
+
+def test_unknown_amount_of_numbers(calc):
+    numbers = ",".join(str(i) for i in range(1, 901))
+    assert calc.add(numbers) == sum(range(1, 901))
+
+def test_numbers_greater_than_1000_ignored(calc):
+    assert calc.add("2,1001") == 2
+    assert calc.add("1000,1001,3") == 1003
+    assert calc.add("1500,2000,2500") == 0
+    assert calc.add("500,600,700,800,900,1001") == 3500
+    assert calc.add("1001,1002,3,4,5") == 12
+
+def test_multi_char_delimiter_in_brackets(calc):
+    assert calc.add("//[***]\n1***2***3") == 6
+
+def test_multiple_delimiters(calc):
+    assert calc.add("//[*][%]\n1*2%3") == 6
+
+def test_multiple_delimiters_multiple_chars(calc):
+    assert calc.add("//[**][%%]\n1**2%%3") == 6
+
+def test_custom_delimited_malformed(calc):
+    with pytest.raises(Exception) as exc:
+        calc.add("//;1,2,3")
+    assert "Custom delimiter specification is malformed" in str(exc.value)
