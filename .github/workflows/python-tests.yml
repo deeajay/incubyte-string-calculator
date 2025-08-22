@@ -26,5 +26,5 @@ jobs:
 
       - name: Run tests
         env:
-          PYTHONPATH: src
+          PYTHONPATH: ${{ github.workspace }}
         run: pytest -q tests/test_string_calculator.py
