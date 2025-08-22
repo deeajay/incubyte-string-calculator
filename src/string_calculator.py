@@ -4,6 +4,8 @@ class StringCalculator:
             return 0
         if numbers is None:
             return 0
+        delimiter = ","
+        numbers = numbers.replace("\n", delimiter)
         parts = numbers.split(",")
         total = 0
         for p in parts:
